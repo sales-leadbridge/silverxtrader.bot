@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | SilverX</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <style>
+        body { background: #0f172a; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .card { background: #fff; color: #000; padding: 40px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; }
+        input { width: 100%; padding: 15px; margin: 10px 0; border: 2px solid #eee; border-radius: 10px; }
+        button { width: 100%; padding: 15px; background: #0062ff; color: #fff; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="color:#0062ff">SilverX Access</h2>
+        <p style="color:#64748b; margin-bottom: 20px;">Enter your details to login</p>
+        <input type="email" id="email" placeholder="Email Address">
+        <input type="password" id="pass" placeholder="Password">
+        <button id="authBtn">LOGIN / REGISTER</button>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAyXzJ1UUdtWe96NjiQbVCqnWdIv8XakhA",
+            authDomain: "silverxtrader.firebaseapp.com",
+            projectId: "silverxtrader",
+            storageBucket: "silverxtrader.firebasestorage.app",
+            messagingSenderId: "46330013690",
+            appId: "1:46330013690:web:c2aad241ad7abd49e0e643"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        document.getElementById('authBtn').onclick = () => {
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('pass').value;
+            firebase.auth().createUserWithEmailAndPassword(e, p)
+                .then(() => window.location.href='dashboard.html')
+                .catch(() => {
+                    firebase.auth().signInWithEmailAndPassword(e, p)
+                        .then(() => window.location.href='dashboard.html')
+                        .catch(err => alert(err.message));
+                });
+        };
+    </script>
+</body>
+</html>
