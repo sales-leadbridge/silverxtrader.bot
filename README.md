@@ -1,0 +1,1 @@
+# silverxtrader.bot
