@@ -3,90 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SilverX AI Terminal | Institutional Trading</title>
+    <title>SilverX AI | Official Terminal</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --primary: #0062ff; --dark: #0f172a; --bg: #f8fafc; }
-        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--bg); color: var(--dark); line-height: 1.6; }
-        
-        /* HERO SECTION */
-        .hero { text-align: center; padding: 60px 20px; background: white; }
-        .hero img { width: 100%; max-width: 500px; border-radius: 20px; margin: 20px 0; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .logic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 30px 0; }
-        .logic-card { background: #eff6ff; padding: 15px; border-radius: 10px; font-size: 13px; font-weight: 700; color: var(--primary); border: 1px solid #dbeafe; }
-
-        /* PAIRS LIST */
-        .pairs-preview { padding: 20px; background: #fff; margin: 20px; border-radius: 20px; }
-        .pair-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
-
-        /* PLANS */
-        .section-title { text-align: center; margin: 40px 0 20px; font-weight: 800; }
-        .plan-container { display: flex; overflow-x: auto; gap: 15px; padding: 10px 20px; scrollbar-width: none; }
-        .plan-card { min-width: 250px; background: white; padding: 25px; border-radius: 20px; border: 2px solid #e2e8f0; text-align: center; }
-        .plan-card.hot { border-color: var(--primary); position: relative; }
-        .plan-card h3 { font-size: 24px; margin-bottom: 10px; }
-        .plan-btn { display: block; background: var(--primary); color: white; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: 700; margin-top: 15px; }
-
-        /* JOIN BUTTONS */
-        .join-box { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .btn-q { background: #263238; color: #fff; padding: 15px; border-radius: 12px; text-align: center; text-decoration: none; font-weight: 800; }
-        .btn-p { background: #004d40; color: #fff; padding: 15px; border-radius: 12px; text-align: center; text-decoration: none; font-weight: 800; }
-
-        .start-now { position: fixed; bottom: 20px; left: 20px; right: 20px; background: var(--primary); color: white; text-align: center; padding: 18px; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 10px 20px rgba(0,98,255,0.3); z-index: 100; }
+        :root { --p: #0062ff; --bg: #f8fafc; }
+        * { margin:0; padding:0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); text-align: center; color: #334155; }
+        .hero { padding: 40px 20px; background: white; border-bottom: 5px solid var(--p); }
+        .hero h1 { font-size: 28px; font-weight: 900; }
+        .hero img { width: 100%; max-width: 400px; border-radius: 20px; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .plan-grid { display: flex; overflow-x: auto; gap: 15px; padding: 20px; scrollbar-width: none; }
+        .plan-card { min-width: 250px; background: white; padding: 25px; border-radius: 20px; border: 2px solid var(--p); text-align: left; }
+        .join-box { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 20px; }
+        .btn-join { padding: 15px; border-radius: 12px; font-weight: 800; text-decoration: none; color: white; text-align: center; }
+        .start-btn { display: block; background: var(--p); color: white; margin: 20px; padding: 20px; border-radius: 50px; text-decoration: none; font-weight: 900; box-shadow: 0 10px 25px rgba(0,98,255,0.4); }
     </style>
 </head>
 <body>
-
     <div class="hero">
-        <h1>SilverX <span style="color:var(--primary)">AI Terminal</span></h1>
-        <p>Institutional grade analysis with 94% Precision</p>
-        <img src="https://images.unsplash.com/photo-1611974717482-48281971b504?auto=format&fit=crop&w=600" alt="Trading">
-        
-        <div class="logic-grid">
-            <div class="logic-card"><i class="fas fa-microchip"></i> Neural Logic</div>
-            <div class="logic-card"><i class="fas fa-database"></i> Market Flow</div>
-            <div class="logic-card"><i class="fas fa-chart-area"></i> RSI Cluster</div>
-        </div>
+        <h1>SilverX <span style="color:var(--p)">AI Terminal</span></h1>
+        <img src="https://images.unsplash.com/photo-1611974717482-48281971b504?w=600" alt="Trading Logic">
+        <p style="font-weight: bold; opacity: 0.7;">Institutional AI Logic & Signal System</p>
     </div>
 
     <div class="join-box">
-        <a href="https://market-qx.trade/en/sign-up?lid=1696715" class="btn-q">Quotex Join</a>
-        <a href="https://po-ru4.click/register?utm_campaign=835777&utm_source=affiliate&utm_medium=sr&a=JbsX5mZ1ZchgeZ&ac=pak_users_2026" class="btn-p">Pocket Option</a>
+        <a href="https://market-qx.trade/en/sign-up?lid=1696715" class="btn-join" style="background: #10b981;">JOIN QUOTEX</a>
+        <a href="https://po-ru4.click/register?a=JbsX5mZ1ZchgeZ" class="btn-join" style="background: #facc15; color: #000;">POCKET OPTION</a>
     </div>
 
-    <h2 class="section-title">Investment Plans</h2>
-    <div class="plan-container">
-        <div class="plan-card hot">
-            <h3>$100 Plan</h3>
+    <div class="plan-grid">
+        <div class="plan-card">
+            <h3>Investment Plan</h3>
+            <h2 style="color:var(--p)">$100</h2>
             <p>5% Daily Profit</p>
-            <p>Withdrawal: 15 Days</p>
-            <div style="font-size: 12px; color: #64748b; margin-top: 10px;">Full Principal Back After 15 Days</div>
+            <p>15 Days Plan</p>
         </div>
-        <div class="plan-card">
-            <h3>$10 Plan</h3>
-            <p>Live Call Access</p>
-            <p>Duration: 1 Day</p>
-        </div>
-        <div class="plan-card">
-            <h3>$35 Plan</h3>
-            <p>Live Call Access</p>
-            <p>Duration: 3 Days</p>
+        <div class="plan-card" style="border-color: #64748b;">
+            <h3>Live Call Plans</h3>
+            <h2>$10 / $20 / $35</h2>
+            <p>1-Day Access Only</p>
         </div>
     </div>
 
-    <h2 class="section-title">AI Terminal Pairs (16)</h2>
-    <div class="pairs-preview" id="pairsList"></div>
-
-    <div style="height: 100px;"></div>
-    <a href="auth.html" class="start-now">ACCESS TERMINAL NOW</a>
-
-    <script>
-        const pairs = ["EUR/USD","GBP/USD","USD/JPY","AUD/USD","USD/CAD","NZD/USD","EUR/JPY","GBP/JPY","BTC/USDT","ETH/USDT","SOL/USDT","BNB/USDT","DOGE/USDT","XRP/USDT","EUR/GBP","USD/CHF"];
-        const container = document.getElementById('pairsList');
-        pairs.forEach(p => {
-            container.innerHTML += `<div class="pair-row"><b>${p}</b> <span style="color:#10b981">● Scanning...</span></div>`;
-        });
-    </script>
+    <a href="auth.html" class="start-btn">ACCESS LIVE TERMINAL</a>
 </body>
 </html>
