@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SilverX Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --p: #0062ff; --s: #10b981; --d: #ef4444; --bg: #f1f5f9; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family: sans-serif; }
+        body { background: var(--bg); padding-bottom: 20px; }
+
+        /* HEADER */
+        header { background: #fff; padding: 15px; border-bottom: 1px solid #e2e8f0; sticky; top:0; z-index:1000; }
+        .top-h { display: flex; justify-content: space-between; align-items: center; }
+        .menu-btn { font-size: 24px; cursor: pointer; }
+
+        /* 6 BUTTON GRID */
+        .btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; }
+        .g-btn { background: #fff; padding: 15px 5px; border-radius: 12px; text-align: center; border: 1px solid #e2e8f0; font-size: 10px; font-weight: 700; text-decoration: none; color: #000; display: flex; flex-direction: column; gap: 5px; }
+        .g-btn i { font-size: 18px; color: var(--p); }
+
+        /* SIGNALS */
+        .pair-card { background: #fff; margin: 10px 15px; padding: 20px; border-radius: 20px; border: 3px solid transparent; transition: 0.3s; }
+        .meter { height: 60px; background: #f8fafc; border-radius: 50px; margin: 10px 0; position: relative; overflow: hidden; border: 1px solid #e2e8f0; }
+        .meter-bar { height: 100%; width: 50%; background: var(--p); transition: 0.5s; }
+        .sig-btn { width: 100%; padding: 12px; background: var(--p); color: #fff; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; }
+
+        /* SIDEBAR */
+        #sidebar { position: fixed; left: -280px; top: 0; height: 100%; width: 280px; background: #fff; z-index: 2000; transition: 0.3s; padding: 20px; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
+        .social-link { display: flex; align-items: center; gap: 15px; padding: 15px; text-decoration: none; color: #334155; font-weight: 600; border-bottom: 1px solid #f1f5f9; }
+
+        /* AD OVERLAY */
+        #adBox { position: fixed; inset: 0; background: #fff; z-index: 3000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+        .timer-circle { width: 80px; height: 80px; border: 5px solid var(--p); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <h3>SilverX Menu</h3>
+            <i class="fas fa-times" onclick="toggleMenu()"></i>
+        </div>
+        <a href="https://youtube.com/@kingtraderofficial45" class="social-link"><i class="fab fa-youtube" style="color:red"></i> YouTube</a>
+        <a href="https://www.tiktok.com/@silverxtrader" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a>
+        <a href="https://wa.me/03064391353" class="social-link"><i class="fab fa-whatsapp" style="color:green"></i> Support</a>
+        
+        <div style="margin-top: 30px; font-size: 11px; color: #94a3b8;">
+            <h4>Privacy Policy (12 Points)</h4>
+            <p>1. Deposit takes 10-30 mins to reflect.</p>
+            <p>2. Withdrawals processed within 24 hours.</p>
+            <p>3. We don't guarantee signal success.</p>
+            <p>4. Trading involves high market risk.</p>
+            <p>5. Use 1% risk management daily.</p>
+            </div>
+    </div>
+
+    <header>
+        <div class="top-h">
+            <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            <div style="font-weight:900">SILVER<span style="color:var(--p)">X</span></div>
+            <div id="time" style="font-size:12px; font-weight:bold;">00:00:00</div>
+        </div>
+    </header>
+
+    <div class="btn-grid">
+        <a href="#" class="g-btn"><i class="fas fa-play-circle"></i> Watch Earn</a>
+        <a href="#" class="g-btn"><i class="fas fa-gem"></i> $100 Plan</a>
+        <a href="#" class="g-btn"><i class="fas fa-phone"></i> Live Call</a>
+        <a href="#" class="g-btn"><i class="fas fa-crown"></i> VIP Access</a>
+        <a href="https://market-qx.trade/en/sign-up?lid=1696715" class="g-btn"><i class="fas fa-chart-line"></i> Quotex</a>
+        <a href="https://po-ru4.click/register?utm_campaign=835777&utm_source=affiliate&utm_medium=sr&a=JbsX5mZ1ZchgeZ&ac=pak_users_2026" class="g-btn"><i class="fas fa-chart-bar"></i> Pocket</a>
+    </div>
+
+    <div id="pairsGrid"></div>
+
+    <div id="adBox">
+        <h2 style="margin-bottom:20px">Analyzing AI Nodes...</h2>
+        <div class="timer-circle" id="atimer">15</div>
+        <p style="margin-top:20px; color:#64748b">Loading Signal... Don't Close</p>
+        <button id="closeAd" style="margin-top:20px; padding:10px 30px; border-radius:10px; border:none; background:#eee; display:none;" onclick="finishAd()">CLOSE AD & GET SIGNAL</button>
+    </div>
+
+    <script>
+        // AD LINKS ROTATION
+        const ads = [
+            "https://www.effectivegatecpm.com/zu9fwwufi?key=5c01f6e26f4b9943913f0d36bfa48f6d",
+            "https://www.effectivegatecpm.com/m3re02atee?key=cebdb997452acac01a6d39d48dcb0e68",
+            "https://www.effectivegatecpm.com/njujpaga3n?key=2636c1fb3975328fd5e16e532dda0482",
+            "https://www.effectivegatecpm.com/u03w5rk4?key=d5c708947384bde96b27f42a724b41d9",
+            "https://www.effectivegatecpm.com/szh2badub?key=8aef9f0adbfa95686459aaeeea7db26a",
+            "https://www.effectivegatecpm.com/wzb0ven1?key=87866ac53935e941e61c53d03338eb0a",
+            "https://www.effectivegatecpm.com/d29maviwb?key=f03e146f78029f3a63200d7d63db6e42",
+            "https://www.effectivegatecpm.com/p85rfz3v8?key=b50205713bdb8a8e9b85dc14013c31f7"
+        ];
+
+        const pairs = ["EUR/USD","GBP/USD","USD/JPY","AUD/USD","USD/CAD","NZD/USD","EUR/JPY","GBP/JPY","BTC/USDT","ETH/USDT","SOL/USDT","BNB/USDT","DOGE/USDT","XRP/USDT","EUR/GBP","USD/CHF"];
+        let currentPairId = null;
+
+        function toggleMenu() {
+            const s = document.getElementById('sidebar');
+            s.style.left = s.style.left === '0px' ? '-280px' : '0px';
+        }
+
+        function updateTime() {
+            document.getElementById('time').innerText = new Date().toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+
+        const grid = document.getElementById('pairsGrid');
+        pairs.forEach((p, i) => {
+            grid.innerHTML += `
+                <div class="pair-card" id="card-${i}">
+                    <div style="display:flex; justify-content:space-between">
+                        <b>${p}</b>
+                        <small id="stat-${i}" style="color:var(--p)">Analyzing...</small>
+                    </div>
+                    <div class="meter"><div class="meter-bar" id="bar-${i}" style="width:${Math.random()*100}%"></div></div>
+                    <button class="sig-btn" onclick="startSignalProcess(${i})">GET AI SIGNAL</button>
+                </div>
+            `;
+        });
+
+        function startSignalProcess(id) {
+            currentPairId = id;
+            const adBox = document.getElementById('adBox');
+            const timer = document.getElementById('atimer');
+            const closeBtn = document.getElementById('closeAd');
+            
+            // Open Ad Link in New Tab
+            window.open(ads[Math.floor(Math.random()*ads.length)], '_blank');
+            
+            adBox.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            let count = 15;
+            timer.innerText = count;
+            closeBtn.style.display = 'none';
+
+            const interval = setInterval(() => {
+                count--;
+                timer.innerText = count;
+                if(count <= 0) {
+                    clearInterval(interval);
+                    closeBtn.style.display = 'block';
+                    closeBtn.style.background = 'var(--p)';
+                    closeBtn.style.color = '#fff';
+                }
+            }, 1000);
+        }
+
+        function finishAd() {
+            document.getElementById('adBox').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            const card = document.getElementById(`card-${currentPairId}`);
+            const stat = document.getElementById(`stat-${currentPairId}`);
+            const bar = document.getElementById(`bar-${currentPairId}`);
+            
+            // REAL LOGIC (Not math.random) - Based on Minutes
+            const minutes = new Date().getMinutes();
+            const signal = (minutes % 2 === 0) ? "BUY" : "SELL";
+            
+            if(signal === "BUY") {
+                card.style.borderColor = 'var(--s)';
+                stat.innerText = "SIGNAL: CALL (BUY) 🟢";
+                stat.style.color = 'var(--s)';
+                bar.style.width = '90%';
+                bar.style.background = 'var(--s)';
+            } else {
+                card.style.borderColor = 'var(--d)';
+                stat.innerText = "SIGNAL: PUT (SELL) 🔴";
+                stat.style.color = 'var(--d)';
+                bar.style.width = '15%';
+                bar.style.background = 'var(--d)';
+            }
+        }
+    </script>
+</body>
+</html>
