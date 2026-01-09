@@ -2,49 +2,251 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SilverX AI | Official Terminal</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SilverX Elite AI | Supreme Bot</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root { --p: #0062ff; --bg: #f8fafc; }
-        * { margin:0; padding:0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--bg); text-align: center; color: #334155; }
-        .hero { padding: 40px 20px; background: white; border-bottom: 5px solid var(--p); }
-        .hero h1 { font-size: 28px; font-weight: 900; }
-        .hero img { width: 100%; max-width: 400px; border-radius: 20px; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .plan-grid { display: flex; overflow-x: auto; gap: 15px; padding: 20px; scrollbar-width: none; }
-        .plan-card { min-width: 250px; background: white; padding: 25px; border-radius: 20px; border: 2px solid var(--p); text-align: left; }
-        .join-box { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 20px; }
-        .btn-join { padding: 15px; border-radius: 12px; font-weight: 800; text-decoration: none; color: white; text-align: center; }
-        .start-btn { display: block; background: var(--p); color: white; margin: 20px; padding: 20px; border-radius: 50px; text-decoration: none; font-weight: 900; box-shadow: 0 10px 25px rgba(0,98,255,0.4); }
+        :root { --royal: #2563eb; --orange: #ff6600; --gold: #fbbf24; --midnight: #0a1e2f; --cyan: #00d2ff; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #ffffff; color: #0f172a; overflow-x: hidden; -webkit-tap-highlight-color: transparent; font-size: 21px; }
+
+        /* Compact Card Design */
+        .card-final {
+            background: #ffffff; border: 1.5px solid #f1f5f9; border-radius: 22px;
+            padding: 15px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); margin-bottom: 2px;
+        }
+
+        /* 1. REVERTED OLD BOX DESIGN (From input_file_9.jpeg) */
+        .old-style-box {
+            width: 100%; height: 185px; background: linear-gradient(180deg, #0f2a3f 0%, #05101a 100%);
+            border-radius: 30px; position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            border: 3px solid #ffffff; box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        /* Overlapping Neon Rings */
+        .neon-swirl {
+            position: absolute; width: 110px; height: 110px; border: 2px solid var(--cyan);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            box-shadow: 0 0 15px var(--cyan); animation: rotateSwirl 6s linear infinite;
+        }
+        .neon-swirl-2 {
+            position: absolute; width: 100px; height: 100px; border: 2px solid #3b82f6;
+            border-radius: 60% 40% 30% 70% / 50% 60% 40% 60%;
+            box-shadow: 0 0 15px #3b82f6; animation: rotateSwirl 4s linear reverse infinite;
+        }
+        @keyframes rotateSwirl { to { transform: rotate(360deg); } }
+
+        /* White Chip Box */
+        .central-chip {
+            width: 75px; height: 75px; background: white; border-radius: 18px;
+            display: flex; align-items: center; justify-content: center; z-index: 10;
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+        }
+        .central-chip i { font-size: 38px; color: var(--royal); }
+
+        /* Floating White Stat Bar */
+        .floating-stat-bar {
+            position: absolute; bottom: 0; width: 100%; height: 45px;
+            background: white; display: flex; justify-content: space-between;
+            align-items: center; padding: 0 20px;
+        }
+
+        /* 2. VIP SECTION (2x LARGER) */
+        .vip-feature { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 12px; color: #334155; }
+        .vip-feature i { font-size: 22px; color: #22c55e; }
+
+        /* 3. SOCIAL HEADER BAR (3x SMALLER) */
+        .social-bar-compact {
+            background: #f8fafc; border: 1.5px solid #f1f5f9; border-radius: 12px;
+            padding: 8px 15px; display: inline-flex; gap: 25px; align-items: center;
+        }
+        .social-bar-compact i { font-size: 16px; }
+
+        /* Buttons & Chips */
+        .btn-compact { padding: 14px; border-radius: 16px; font-weight: 800; font-size: 13px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; }
+        .btn-blue { background: linear-gradient(135deg, #2563eb, #00d2ff); color: white; }
+        .btn-orange { background: linear-gradient(135deg, #ff6600, #ff8c00); color: white; }
+        .asset-chip { background: #fffcf0; border: 1px solid #fef3c7; padding: 10px; border-radius: 14px; font-weight: 800; font-size: 13px; text-align: center; color: #b45309; }
+
+        .wa { color: #25D366; } .yt { color: #FF0000; } .tt { color: #000000; }
     </style>
 </head>
-<body>
-    <div class="hero">
-        <h1>SilverX <span style="color:var(--p)">AI Terminal</span></h1>
-        <img src="https://images.unsplash.com/photo-1611974717482-48281971b504?w=600" alt="Trading Logic">
-        <p style="font-weight: bold; opacity: 0.7;">Institutional AI Logic & Signal System</p>
-    </div>
+<body class="bg-slate-50/20">
 
-    <div class="join-box">
-        <a href="https://market-qx.trade/en/sign-up?lid=1696715" class="btn-join" style="background: #10b981;">JOIN QUOTEX</a>
-        <a href="https://po-ru4.click/register?a=JbsX5mZ1ZchgeZ" class="btn-join" style="background: #facc15; color: #000;">POCKET OPTION</a>
-    </div>
-
-    <div class="plan-grid">
-        <div class="plan-card">
-            <h3>Investment Plan</h3>
-            <h2 style="color:var(--p)">$100</h2>
-            <p>5% Daily Profit</p>
-            <p>15 Days Plan</p>
+    <!-- 1. NAVIGATION -->
+    <nav class="sticky top-0 z-[100] bg-white/95 backdrop-blur-md border-b border-orange-100 px-5 py-3 flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center border-2 border-amber-400">
+                <i class="fas fa-robot text-amber-400"></i>
+            </div>
+            <span class="font-extrabold text-xl tracking-tighter uppercase">SILVERX<span class="text-orange-500">BOT</span></span>
         </div>
-        <div class="plan-card" style="border-color: #64748b;">
-            <h3>Live Call Plans</h3>
-            <h2>$10 / $20 / $35</h2>
-            <p>1-Day Access Only</p>
+        <div class="flex gap-2">
+            <button onclick="scrollToAuth()" class="bg-slate-50 text-[10px] font-black px-4 py-2 rounded-xl border border-slate-200">LOGIN</button>
+            <button onclick="scrollToAuth()" class="btn-blue !text-[10px] !px-4 !py-2 !rounded-xl shadow-lg">JOIN</button>
         </div>
-    </div>
+    </nav>
 
-    <a href="auth.html" class="start-btn">ACCESS LIVE TERMINAL</a>
+    <!-- 2. HERO SECTION (With OLD BOX Design) -->
+    <section class="px-6 py-4 text-center">
+        <h1 class="text-3xl font-[900] text-slate-900 mb-3 uppercase tracking-tighter">Supreme AI Bot</h1>
+        
+        <!-- REVERTED OLD BOX (Dark Style) -->
+        <div class="old-style-box mx-auto mb-4">
+            <div class="neon-swirl"></div>
+            <div class="neon-swirl-2"></div>
+            <div class="central-chip">
+                <i class="fas fa-microchip"></i>
+            </div>
+            <div class="floating-stat-bar">
+                <div class="text-left">
+                    <p class="text-[7px] font-black text-slate-400 uppercase leading-none">Accuracy</p>
+                    <p class="text-sm font-black text-blue-600">80% - 95%</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-[7px] font-black text-slate-400 uppercase leading-none">Signals</p>
+                    <p class="text-sm font-black text-green-500 uppercase">Winning</p>
+                </div>
+            </div>
+        </div>
+        
+        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[2px] mb-4">Institutional AI Bot for <span class="text-blue-600">Quotex</span> & <span class="text-orange-500">Pocket Option</span></p>
+
+        <button onclick="scrollToAuth()" class="w-full btn-orange !py-4 !rounded-xl font-black text-[11px] uppercase tracking-widest shadow-2xl">
+            <i class="fas fa-bolt-lightning mr-2"></i> GET FREE BOT ACCESS
+        </button>
+    </section>
+
+    <!-- 3. BROKER HUB -->
+    <section class="px-5 py-1 space-y-2">
+        <a href="https://broker-qx.pro/sign-up/?lid=1696715" target="_blank" class="card-final flex items-center justify-between !py-4 border-l-4 border-l-blue-600 active:scale-95 transition-all">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center text-orange-600 shadow-inner"><i class="fas fa-chart-line text-2xl"></i></div>
+                <span class="text-sm font-black uppercase text-slate-700">Quotex Pro Join</span>
+            </div>
+            <i class="fas fa-chevron-right text-orange-200"></i>
+        </a>
+        <a href="https://po-ru4.click/register?utm_campaign=835777&utm_source=affiliate&utm_medium=sr&a=JbsX5mZ1ZchgeZ&ac=pak_users_2026" target="_blank" class="card-final flex items-center justify-between !py-4 border-l-4 border-l-slate-800 active:scale-95 transition-all">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-800 shadow-inner"><i class="fas fa-wallet text-2xl"></i></div>
+                <span class="text-sm font-black uppercase text-slate-700">Pocket Option Join</span>
+            </div>
+            <i class="fas fa-chevron-right text-slate-300"></i>
+        </a>
+    </section>
+
+    <!-- 4. REWARD ENGINE (5000 POINT Rate) -->
+    <section class="px-5 py-2">
+        <div class="card-final bg-slate-900 border-none flex flex-col gap-3 p-6 relative overflow-hidden shadow-2xl">
+            <div class="flex justify-between items-start mb-10 relative z-10 text-white">
+                <div>
+                    <h3 class="text-2xl font-black text-orange-400 uppercase tracking-tighter mb-2 leading-none">Reward Engine</h3>
+                    <p class="text-[9px] font-bold text-slate-400 uppercase">WATCH ADS & EARN REAL POINTS</p>
+                </div>
+                <i class="fab fa-binance text-6xl text-amber-500"></i>
+            </div>
+            <div class="bg-white/10 p-4 rounded-xl flex justify-between items-center border border-white/10 relative z-10 shadow-inner">
+                <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Rate:</span>
+                <span class="text-2xl font-black text-orange-400 uppercase tracking-tighter">5000 POINT = 5$ REAL</span>
+            </div>
+            <button class="btn-sleek btn-orange !py-3 shadow-lg relative z-10">Start Mining Now</button>
+            <i class="fas fa-hand-holding-dollar absolute -bottom-5 -right-5 text-[150px] text-white/5 opacity-10"></i>
+        </div>
+    </section>
+
+    <!-- 5. RECOVERY HUB -->
+    <section class="px-5 py-1 grid grid-cols-2 gap-2">
+        <div class="card-final text-center !py-4 border-b-4 border-blue-500"><h4 class="text-[9px] font-black uppercase">Standard</h4><p class="text-[7px] font-bold text-slate-400 mb-2">$10 | 15% WIN</p><a href="https://wa.me/923064391353" class="btn-compact btn-blue !py-1.5 !rounded-lg">Join</a></div>
+        <div class="card-final text-center !py-4 border-b-4 border-orange-400"><h4 class="text-[9px] font-black uppercase">Executive</h4><p class="text-[7px] font-bold text-slate-400 mb-2">$50 | 50% WIN</p><a href="https://wa.me/923064391353" class="btn-compact btn-orange !py-1.5 !rounded-lg">Join</a></div>
+    </section>
+
+    <!-- 6. VIP DIAMOND MASTERPIECE (2x Larger Labels) -->
+    <section class="px-5 py-4">
+        <div class="vip-card-master text-center border-2 border-amber-300 shadow-2xl !py-8 bg-white rounded-[35px]">
+            <div class="w-14 h-14 bg-amber-400 rounded-xl mx-auto flex items-center justify-center shadow-lg mb-3 border-2 border-white"><i class="fas fa-gem text-white text-2xl"></i></div>
+            <h2 class="text-lg font-black text-slate-900 uppercase">VIP Diamond Terminal</h2>
+            
+            <div class="flex flex-col items-center gap-6 border-y border-orange-50 py-8 my-4 mx-4">
+                <div class="vip-feature"><i class="fas fa-check-circle"></i> NO ADS / ZERO DELAY</div>
+                <div class="vip-feature"><i class="fas fa-check-circle"></i> 25+ PREMIUM ASSETS</div>
+                <div class="vip-feature"><i class="fas fa-check-circle"></i> 99.9% LOGIC ACCURACY</div>
+            </div>
+            
+            <div class="text-3xl font-black text-slate-900 mb-4">$100<span class="text-[10px] text-slate-400 ml-1 uppercase">/ MONTH</span></div>
+            <a href="https://wa.me/923064391353" target="_blank" class="w-full block py-3.5 bg-slate-900 text-amber-400 rounded-xl font-black uppercase text-[10px] tracking-widest shadow-xl shadow-amber-100">Upgrade Now</a>
+        </div>
+    </section>
+
+    <!-- 7. ASSETS HUB (10 Forex + 6 Crypto) -->
+    <section class="px-5 py-2 bg-white border-y border-slate-100">
+        <div class="space-y-6">
+            <div>
+                <p class="text-[10px] font-black text-blue-500 uppercase tracking-[3px] mb-3">10 Forex Major Pairs</p>
+                <div class="grid grid-cols-4 gap-1.5">
+                    <div class="asset-chip">EUR/USD</div> <div class="asset-chip">GBP/USD</div> <div class="asset-chip">USD/JPY</div> <div class="asset-chip">AUD/USD</div>
+                    <div class="asset-chip">USD/CAD</div> <div class="asset-chip">EUR/GBP</div> <div class="asset-chip">NZD/USD</div> <div class="asset-chip">USD/CHF</div>
+                    <div class="asset-chip">EUR/JPY</div> <div class="asset-chip">GBP/JPY</div>
+                </div>
+            </div>
+            <div>
+                <p class="text-[10px] font-black text-orange-500 uppercase tracking-[3px] mb-3">06 Crypto Elite Assets</p>
+                <div class="grid grid-cols-3 gap-1.5">
+                    <div class="asset-chip">BITCOIN</div> <div class="asset-chip">ETHEREUM</div> <div class="asset-chip">SOLANA</div>
+                    <div class="asset-chip">XRP</div> <div class="asset-chip">LITECOIN</div> <div class="asset-chip">DOGE</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. EXECUTIVE AUTH SECTION (Full Mobile Width & Compact) -->
+    <section id="auth-section" class="py-12 bg-orange-50/50 border-t border-orange-100">
+        <div class="bg-white mx-4 p-8 rounded-[35px] shadow-2xl border border-amber-100">
+            <h2 class="text-xl font-black text-center mb-8 uppercase tracking-tighter">Enter Terminal</h2>
+            <div class="max-w-md mx-auto space-y-4 text-center">
+                <button onclick="alert('Google Auth Logic...')" class="w-full py-4 bg-white border border-slate-200 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all shadow-sm mb-6">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" class="w-5 h-4" alt="google"><span class="text-[11px] font-black uppercase text-slate-700">Continue with Google</span>
+                </button>
+                <input type="email" id="email" placeholder="Email" class="w-full p-4 bg-slate-50 rounded-xl outline-none font-bold text-xs border border-transparent focus:border-blue-500">
+                <input type="password" id="password" placeholder="Password" class="w-full p-4 bg-slate-50 rounded-xl outline-none font-bold text-xs border border-transparent focus:border-blue-500">
+                <div class="flex gap-2.5 pt-4">
+                    <button onclick="handleLogin()" class="flex-1 btn-compact btn-blue py-4 text-[10px] shadow-lg">LOGIN</button>
+                    <button onclick="handleSignup()" class="flex-1 bg-slate-900 text-white py-4 rounded-xl font-black text-[10px] shadow-lg">SIGNUP</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. FINAL COMPACT FOOTER (Integrated Branding + Social Bar) -->
+        <div class="px-6 pt-10 pb-0 text-center">
+            <h3 class="font-black text-slate-900 text-base uppercase tracking-tighter leading-none mb-3 italic">SilverX <span class="text-orange-500 underline underline-offset-4 decoration-2 decoration-orange-200">Elite AI</span></h3>
+            <p class="text-[8px] font-bold text-slate-400 uppercase tracking-[4px] mb-8 px-4 leading-relaxed">The International Standard of Logic &copy; 2025</p>
+            
+            <!-- Compact Header-Style Social Box (3x Smaller) -->
+            <div class="flex justify-center mb-0">
+                <div class="social-bar-compact shadow-sm">
+                    <a href="https://wa.me/923064391353" target="_blank"><i class="fab fa-whatsapp wa"></i></a>
+                    <a href="https://www.youtube.com/@kingtraderofficial45" target="_blank"><i class="fab fa-youtube yt"></i></a>
+                    <a href="https://www.tiktok.com/@kingtraderofficail" target="_blank"><i class="fab fa-tiktok tt"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Firebase Logic -->
+    <script>
+        const firebaseConfig = { apiKey: "AIzaSyAyXzJ1UUdtWe96NjiQbVCqnWdIv8XakhA", authDomain: "silverxtrader.firebaseapp.com", projectId: "silverxtrader", storageBucket: "silverxtrader.firebasestorage.app", messagingSenderId: "46330013690", appId: "1:46330013690:web:c2aad241ad7abd49e0e643" };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        function handleLogin() { const email = document.getElementById('email').value; const pass = document.getElementById('password').value; if(!email || !pass) return alert("Fill all fields"); auth.signInWithEmailAndPassword(email, pass).then(() => window.location.href = 'dashboard.html').catch(err => alert(err.message)); }
+        function handleSignup() { const email = document.getElementById('email').value; const pass = document.getElementById('password').value; if(!email || !pass) return alert("Fill all fields"); auth.createUserWithEmailAndPassword(email, pass).then(() => alert("Signup Success! Please Login.")).catch(err => alert(err.message)); }
+        function scrollToAuth() { document.getElementById('auth-section').scrollIntoView({ behavior: 'smooth' }); }
+    </script>
 </body>
-</html>
+            </html>
